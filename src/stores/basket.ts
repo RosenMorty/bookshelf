@@ -6,6 +6,7 @@ import { ref } from "vue";
 export const useBasketStore = defineStore("basket", () => {
   const { isAuthorized } = storeToRefs(useAuthStore());
   const booksInBasket = ref<Book[]>([]);
+  const isInBasket = ref(false);
 
   const addInBasket = (book: Book) => {
     if (isAuthorized.value) {
@@ -19,5 +20,5 @@ export const useBasketStore = defineStore("basket", () => {
     }
   };
 
-  return { booksInBasket, addInBasket };
+  return { booksInBasket, addInBasket, isInBasket };
 });

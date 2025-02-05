@@ -16,13 +16,14 @@
   <div class="card" v-if="authStore.isAuthorized === true">
     <div class="">
       <h2>Добавлены в корзину:</h2>
-      <span
-        :key="id"
+      <BookCard
         class="adds-basket-book"
-        v-for="{ id } in basketStore.booksInBasket"
+        v-for="book in basketStore.booksInBasket"
+        :key="book.id"
+        :book="book"
       >
-        {{ id }},
-      </span>
+        {{ book }},
+      </BookCard>
     </div>
     <h1>Планирую прочесть</h1>
     <div class="list">

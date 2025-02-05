@@ -11,9 +11,13 @@
         <h2 class="title">Название: {{ book.title }}</h2>
         <button
           class="add-to-list"
-          @click="() => basketStore.addInBasket(book)"
+          @click="
+            basketStore.addInBasket(book);
+            toggleButtonText();
+          "
+          а
         >
-          Add to list
+          {{ buttonTxt }}
         </button>
       </div>
     </div>
@@ -24,10 +28,17 @@
 import { useBookshelfStore } from "@/stores/bookshelf";
 import { useBasketStore } from "@/stores/basket";
 import type { Book } from "@/stores/bookshelf";
-import { defineProps } from "vue";
+import { defineProps, ref } from "vue";
 
 const bookStore = useBookshelfStore();
 const basketStore = useBasketStore();
+
+const buttonTxt = ref("Add to list");
+
+const toggleButtonText = () => {
+  buttonTxt.value =
+    buttonTxt.value === "Add to list" ? "Delete to list" : "Add to list";
+};
 
 const props = defineProps<{
   book: Book;
