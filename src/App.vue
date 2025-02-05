@@ -7,11 +7,21 @@
       <button v-else class="logout" @click="changeRegistr">Выйти</button>
     </div>
   </header>
+  <div class="card">
+    <h1>Book list</h1>
+    <div class="list">
+      <BookCard v-for="book in bookStore.books" :book="book" />
+    </div>
+  </div>
+  <!-- <FirtstComponent></FirtstComponent>
+  <SecondComponent></SecondComponent> -->
 </template>
 
 <script setup lang="ts">
+import BookCard from "./components/BookCard.vue";
 import { RouterLink, RouterView } from "vue-router";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
+import { useBookshelfStore } from "./stores/bookshelf";
 
 const isRegistr = ref(false);
 
@@ -19,9 +29,31 @@ const changeRegistr = () => {
   isRegistr.value = !isRegistr.value;
   console.log("Текущее значение isRegistr:", isRegistr.value);
 };
+
+const bookStore = useBookshelfStore();
+
+onMounted(() => {
+  bookStore.loadProducts();
+});
 </script>
 
 <style scoped>
+.list {
+  /* display: flex;
+  flex-direction: column; */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.list div {
+  width: calc(100% / 6 - 10px);
+  text-align: center;
+  padding: 8px;
+  background-color: #f3f3f3;
+  border-radius: 8px;
+}
+
 header {
   line-height: 1.5;
   max-height: 100vh;
