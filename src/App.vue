@@ -1,20 +1,34 @@
 <template>
   <header>
     <div class="container">
-      <button class="logout" v-if="!isRegistr" @click="changeRegistr">
+      <button
+        class="logout"
+        v-if="authStore.isAuthorized === false"
+        @click="authStore.changeRegistr"
+      >
         Войти
       </button>
-      <button v-else class="logout" @click="changeRegistr">Выйти</button>
+      <button v-else class="logout" @click="authStore.changeRegistr">
+        Выйти
+      </button>
     </div>
   </header>
-  <div class="card">
-    <h1>Book list</h1>
+  <div class="card" v-if="authStore.isAuthorized === true">
+    <div class="">
+      <h2>Добавлены в корзину:</h2>
+      <span
+        :key="id"
+        class="adds-basket-book"
+        v-for="{ id } in basketStore.booksInBasket"
+      >
+        {{ id }},
+      </span>
+    </div>
+    <h1>Планирую прочесть</h1>
     <div class="list">
-      <BookCard v-for="book in bookStore.books" :book="book" />
+      <BookCard v-for="book in bookStore.books" :key="book.id" :book="book" />
     </div>
   </div>
-  <!-- <FirtstComponent></FirtstComponent>
-  <SecondComponent></SecondComponent> -->
 </template>
 
 <script setup lang="ts">
@@ -22,15 +36,12 @@ import BookCard from "./components/BookCard.vue";
 import { RouterLink, RouterView } from "vue-router";
 import { onMounted, ref } from "vue";
 import { useBookshelfStore } from "./stores/bookshelf";
+import { useAuthStore } from "./stores/auth";
+import { useBasketStore } from "./stores/basket";
 
-const isRegistr = ref(false);
-
-const changeRegistr = () => {
-  isRegistr.value = !isRegistr.value;
-  console.log("Текущее значение isRegistr:", isRegistr.value);
-};
-
+const authStore = useAuthStore();
 const bookStore = useBookshelfStore();
+const basketStore = useBasketStore();
 
 onMounted(() => {
   bookStore.loadProducts();
@@ -38,6 +49,10 @@ onMounted(() => {
 </script>
 
 <style scoped>
+/* .adds-basket-book {
+  display: flex;
+} */
+
 .list {
   /* display: flex;
   flex-direction: column; */
@@ -74,7 +89,6 @@ nav {
   border-radius: 3px;
   background: rgb(241, 242, 247);
   color: rgb(67, 68, 73);
-  /* margin-left: 10px; */
   margin-right: 10px;
   width: 100px;
   height: 50px;

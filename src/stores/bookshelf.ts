@@ -28,8 +28,15 @@ export const useBookshelfStore = defineStore("book", () => {
   async function loadProducts() {
     const res = await fetch("https://jsonplaceholder.typicode.com/photos");
     const data = await res.json();
-    books.value = data;
+    const limitedData = data.slice(0, 15);
+    books.value = limitedData;
   }
 
-  return { books, addBook, removeBook, hasBook, loadProducts };
+  return {
+    books,
+    addBook,
+    removeBook,
+    hasBook,
+    loadProducts,
+  };
 });

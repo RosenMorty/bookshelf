@@ -9,14 +9,25 @@
       <div>
         <h2 class="talbumId">Id альбома: {{ book.albumId }}</h2>
         <h2 class="title">Название: {{ book.title }}</h2>
+        <button
+          class="add-to-list"
+          @click="() => basketStore.addInBasket(book)"
+        >
+          Add to list
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { useBookshelfStore } from "@/stores/bookshelf";
+import { useBasketStore } from "@/stores/basket";
 import type { Book } from "@/stores/bookshelf";
 import { defineProps } from "vue";
+
+const bookStore = useBookshelfStore();
+const basketStore = useBasketStore();
 
 const props = defineProps<{
   book: Book;
@@ -34,7 +45,7 @@ const props = defineProps<{
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   padding: 16px;
   overflow: hidden;
-  border: 3px solid;
+  border: 2px solid;
   border-image: #8a00ff;
 }
 
