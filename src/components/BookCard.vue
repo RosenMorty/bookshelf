@@ -7,17 +7,10 @@
     />
     <div class="text-block">
       <div>
-        <h2 class="talbumId">Id альбома: {{ book.albumId }}</h2>
+        <h2 class="albumId">Id: {{ book.id }}</h2>
         <h2 class="title">Название: {{ book.title }}</h2>
-        <button
-          class="add-to-list"
-          @click="
-            basketStore.addInBasket(book);
-            toggleButtonText();
-          "
-          а
-        >
-          {{ buttonTxt }}
+        <button class="add-to-list" @click="basketStore.addInBasket(book)" а>
+          Add to list
         </button>
       </div>
     </div>
@@ -32,13 +25,6 @@ import { defineProps, ref } from "vue";
 
 const bookStore = useBookshelfStore();
 const basketStore = useBasketStore();
-
-const buttonTxt = ref("Add to list");
-
-const toggleButtonText = () => {
-  buttonTxt.value =
-    buttonTxt.value === "Add to list" ? "Delete to list" : "Add to list";
-};
 
 const props = defineProps<{
   book: Book;
@@ -57,7 +43,6 @@ const props = defineProps<{
   padding: 16px;
   overflow: hidden;
   border: 2px solid;
-  border-image: #8a00ff;
 }
 
 .img {
@@ -76,7 +61,7 @@ const props = defineProps<{
   justify-content: center;
 }
 
-.talbumId {
+.albumId {
   font-size: 14px;
   font-weight: bold;
   color: #555;

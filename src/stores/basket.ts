@@ -1,10 +1,11 @@
 import { defineStore, storeToRefs } from "pinia";
 import { useAuthStore } from "./auth";
-import type { Book } from "./bookshelf";
+import { useBookshelfStore, type Book } from "./bookshelf";
 import { ref } from "vue";
 
 export const useBasketStore = defineStore("basket", () => {
   const { isAuthorized } = storeToRefs(useAuthStore());
+  const { books } = storeToRefs(useBookshelfStore());
   const booksInBasket = ref<Book[]>([]);
   const isInBasket = ref(false);
 
@@ -20,5 +21,5 @@ export const useBasketStore = defineStore("basket", () => {
     }
   };
 
-  return { booksInBasket, addInBasket, isInBasket };
+  return { booksInBasket, addInBasket, isInBasket, books };
 });

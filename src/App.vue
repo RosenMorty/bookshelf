@@ -14,8 +14,8 @@
     </div>
   </header>
   <div class="card" v-if="authStore.isAuthorized === true">
-    <div class="">
-      <h2>Добавлены в корзину:</h2>
+    <h2>Планирую прочесть:</h2>
+    <div class="basketBook">
       <BookCard
         class="adds-basket-book"
         v-for="book in basketStore.booksInBasket"
@@ -25,7 +25,7 @@
         {{ book }},
       </BookCard>
     </div>
-    <h1>Планирую прочесть</h1>
+    <h1>Список книг:</h1>
     <div class="list">
       <BookCard v-for="book in bookStore.books" :key="book.id" :book="book" />
     </div>
@@ -50,9 +50,23 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* .adds-basket-book {
+.adds-basket-book {
   display: flex;
-} */
+  margin: 10px;
+  align-items: center;
+  max-width: 350px;
+  background: #e9e0e0;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  overflow: hidden;
+  border: 2px solid;
+}
+
+.basketBook {
+  display: flex;
+  flex-wrap: wrap;
+}
 
 .list {
   /* display: flex;
