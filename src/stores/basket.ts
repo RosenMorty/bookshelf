@@ -7,7 +7,7 @@ export const useBasketStore = defineStore("basket", () => {
   const { isAuthorized } = storeToRefs(useAuthStore());
   const { books } = storeToRefs(useBookshelfStore());
   const booksInBasket = ref<Book[]>([]);
-  const isInBasket = ref(false);
+  const isInBasket = ref<boolean>(false);
 
   const addInBasket = (book: Book) => {
     if (isAuthorized.value) {
@@ -17,9 +17,15 @@ export const useBasketStore = defineStore("basket", () => {
         );
       } else {
         booksInBasket.value.push(book);
+        isInBasket.value = false;
       }
     }
   };
 
-  return { booksInBasket, addInBasket, isInBasket, books };
+  function removeBook(book: Book) {
+    const index = booksInBasket.value.indexOf(book);
+    booksInBasket.value.splice(index, 1);
+  }
+
+  return { booksInBasket, addInBasket, isInBasket, books, removeBook };
 });

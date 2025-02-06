@@ -9,8 +9,24 @@
       <div>
         <h2 class="albumId">Id: {{ book.id }}</h2>
         <h2 class="title">Название: {{ book.title }}</h2>
-        <button class="add-to-list" @click="basketStore.addInBasket(book)" а>
+        <button
+          class="add-to-list"
+          @click="
+            basketStore.addInBasket(book);
+            bookStore.removeBook(book);
+          "
+        >
           Add to list
+        </button>
+        <button
+          class="add-to-list"
+          @click="
+            basketStore.removeBook(book);
+            bookStore.addBook(book);
+          "
+          style="margin-left: 10px"
+        >
+          Delete at list
         </button>
       </div>
     </div>

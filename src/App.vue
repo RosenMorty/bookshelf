@@ -1,13 +1,9 @@
 <template>
   <header>
     <div class="container">
-      <button
-        class="logout"
-        v-if="authStore.isAuthorized === false"
-        @click="authStore.changeRegistr"
-      >
-        Войти
-      </button>
+      <div v-if="authStore.isAuthorized === false">
+        <button class="logout" @click="authStore.changeRegistr">Войти</button>
+      </div>
       <button v-else class="logout" @click="authStore.changeRegistr">
         Выйти
       </button>
@@ -39,6 +35,7 @@ import { onMounted, ref } from "vue";
 import { useBookshelfStore } from "./stores/bookshelf";
 import { useAuthStore } from "./stores/auth";
 import { useBasketStore } from "./stores/basket";
+import Logout from "./components/Logout.vue";
 
 const authStore = useAuthStore();
 const bookStore = useBookshelfStore();
