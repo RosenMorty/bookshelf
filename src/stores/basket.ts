@@ -6,6 +6,7 @@ import { ref } from "vue";
 export const useBasketStore = defineStore("basket", () => {
   const { isAuthorized } = storeToRefs(useAuthStore());
   const { books } = storeToRefs(useBookshelfStore());
+  const { countBooks } = storeToRefs(useBookshelfStore());
   const booksInBasket = ref<Book[]>([]);
   const isInBasket = ref<boolean>(false);
 
@@ -17,15 +18,25 @@ export const useBasketStore = defineStore("basket", () => {
         );
       } else {
         booksInBasket.value.push(book);
-        isInBasket.value = false;
       }
     }
   };
+
+  function descending() {
+    countBooks.value--;
+  }
 
   function removeBook(book: Book) {
     const index = booksInBasket.value.indexOf(book);
     booksInBasket.value.splice(index, 1);
   }
 
-  return { booksInBasket, addInBasket, isInBasket, books, removeBook };
+  return {
+    booksInBasket,
+    isInBasket,
+    books,
+    addInBasket,
+    removeBook,
+    descending,
+  };
 });

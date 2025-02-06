@@ -1,5 +1,8 @@
 import { defineStore, storeToRefs } from "pinia";
 import { ref } from "vue";
+import { useAuthStore } from "./auth";
+import Logout from "@/components/Logout.vue";
+// import { useBasketStore } from "./basket";
 
 export interface Book {
   albumId: number;
@@ -11,9 +14,19 @@ export interface Book {
 
 export const useBookshelfStore = defineStore("book", () => {
   const books = ref<Book[]>([]);
+  const countBooks = ref(0);
+  const { isAuthorized } = storeToRefs(useAuthStore());
+
+  console.log(books.value.length);
 
   function addBook(book: Book) {
-    books.value.unshift(book);
+    if (isAuthorized.value) {
+      books.value.unshift(book);
+    }
+  }
+
+  function increment() {
+    countBooks.value++;
   }
 
   function removeBook(book: Book) {
@@ -28,12 +41,14 @@ export const useBookshelfStore = defineStore("book", () => {
   async function loadProducts() {
     const res = await fetch("https://jsonplaceholder.typicode.com/photos");
     const data = await res.json();
-    const limitedData = data.slice(0, 15);
-    books.value = limitedData;
+    books.value = data.slice(0, 15);
+    console.log(books.value.length);
   }
 
   return {
     books,
+    countBooks,
+    increment,
     addBook,
     removeBook,
     hasBook,

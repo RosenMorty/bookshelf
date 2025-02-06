@@ -10,25 +10,28 @@
     </div>
   </header>
   <div class="card" v-if="authStore.isAuthorized === true">
-    <h2>Планирую прочесть:</h2>
+    <h2>Reading List:</h2>
+    <h4>Books in: {{ bookStore.countBooks }}</h4>
     <div class="basketBook">
-      <BookCard
+      <ReadingList
         class="adds-basket-book"
         v-for="book in basketStore.booksInBasket"
         :key="book.id"
         :book="book"
       >
         {{ book }},
-      </BookCard>
+      </ReadingList>
     </div>
-    <h1>Список книг:</h1>
-    <div class="list">
-      <BookCard v-for="book in bookStore.books" :key="book.id" :book="book" />
-    </div>
+  </div>
+  <h1>Discover:</h1>
+  <h4>Books in: {{ bookStore.books.length }}</h4>
+  <div class="list">
+    <BookCard v-for="book in bookStore.books" :key="book.id" :book="book" />
   </div>
 </template>
 
 <script setup lang="ts">
+import ReadingList from "./components/ReadingList.vue";
 import BookCard from "./components/BookCard.vue";
 import { RouterLink, RouterView } from "vue-router";
 import { onMounted, ref } from "vue";
@@ -52,12 +55,12 @@ onMounted(() => {
   margin: 10px;
   align-items: center;
   max-width: 350px;
-  background: #e9e0e0;
+  background: #ffffff;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   padding: 16px;
   overflow: hidden;
-  border: 2px solid;
+  border: 2px solid rgb(20, 208, 204);
 }
 
 .basketBook {
@@ -77,7 +80,7 @@ onMounted(() => {
   width: calc(100% / 6 - 10px);
   text-align: center;
   padding: 8px;
-  background-color: #f3f3f3;
+  background-color: #ffffff;
   border-radius: 8px;
 }
 

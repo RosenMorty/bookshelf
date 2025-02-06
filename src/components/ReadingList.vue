@@ -13,16 +13,16 @@
           <button
             class="add-to-list"
             v-if="isAuthorized === true"
-            @click="
-              basketStore.addInBasket(book);
-              bookStore.removeBook(book);
-              bookStore.increment();
-            "
+            @click=""
           ></button>
           <button
             class="delete-at-list"
             v-if="isAuthorized === true"
-            @click="bookStore.removeBook(book)"
+            @click="
+              bookStore.addBook(book);
+              basketStore.removeBook(book);
+              basketStore.descending();
+            "
             style="margin-left: 10px"
           ></button>
         </div>
