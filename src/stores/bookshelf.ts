@@ -5,19 +5,39 @@ import Logout from "@/components/Logout.vue";
 // import { useBasketStore } from "./basket";
 
 export interface Book {
-  albumId: number;
   id: number;
   title: string;
-  url: string;
-  thumbnailUrl: string;
+  originalTitle: string;
+  language: string;
+  releaseYear: number;
+  releaseDate: string;
+  genres: [string];
+  plot: string;
+  runtime: number;
+  budget: null;
+  revenue: null;
+  homepage: string;
+  status: string;
+  posterUrl: string;
+  backdropUrl: string;
+  trailerUrl: string;
+  trailerYouTubeId: string;
+  tmdbRating: number;
+  searchL: string;
+  keywords: [];
+  countriesOfOrigin: [];
+  languages: [];
+  cast: [];
+  director: string;
+  production: null;
+  awardsSummary: null;
 }
 
 export const useBookshelfStore = defineStore("book", () => {
   const books = ref<Book[]>([]);
+  const sortedBooks = ref(books);
   const countBooks = ref(0);
   const { isAuthorized } = storeToRefs(useAuthStore());
-
-  console.log(books.value.length);
 
   function addBook(book: Book) {
     if (isAuthorized.value) {
@@ -39,10 +59,9 @@ export const useBookshelfStore = defineStore("book", () => {
   }
 
   async function loadProducts() {
-    const res = await fetch("https://jsonplaceholder.typicode.com/photos");
+    const res = await fetch("https://cinemaguide.skillbox.cc/movie");
     const data = await res.json();
-    books.value = data.slice(0, 15);
-    console.log(books.value.length);
+    books.value = data.sort((a, b) => b.tmdbRating - a.tmdbRating).slice(0, 10);
   }
 
   return {

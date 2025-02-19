@@ -1,31 +1,43 @@
 <template>
   <div class="wrapper">
-    <img
-      src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Redhead_Cat_%28%D0%A0%D1%8B%D0%B6%D0%B8%D0%B9_%D0%9A%D0%BE%D1%82%29.jpg"
-      :alt="book.title + ' Cover'"
-      class="img"
-    />
+    <img :src="book.posterUrl" :alt="book.title + ' Cover'" class="img" />
+
     <div class="text-block">
       <div>
-        <h2 class="albumId">Id: {{ book.id }}</h2>
-        <h2 class="title">Название: {{ book.title }}</h2>
-        <div class="position-btn">
-          <button
-            class="add-to-list"
-            v-if="isAuthorized === true"
-            @click="
-              basketStore.addInBasket(book);
-              bookStore.removeBook(book);
-              bookStore.increment();
-            "
-          ></button>
-          <button
-            class="delete-at-list"
-            v-if="isAuthorized === true"
-            @click="bookStore.removeBook(book)"
-            style="margin-left: 10px"
-          ></button>
-        </div>
+        <h2 class="title">{{ book.title }}</h2>
+        <p class="release-year">
+          Год выпуска: <span>{{ book.releaseYear }}</span>
+        </p>
+        <p class="rating">
+          Рейтинг: <span class="rating-num-col">{{ book.tmdbRating }}</span>
+        </p>
+        <p class="duration">
+          Длительность: <span>{{ book.runtime }} мин</span>
+        </p>
+
+        <p class="plot">{{ book.plot }}</p>
+      </div>
+
+      <div class="buttons">
+        <button
+          v-if="isAuthorized"
+          @click="
+            basketStore.addInBasket(book);
+            bookStore.removeBook(book);
+            bookStore.increment();
+          "
+          class="add-to-list"
+        >
+          ➕ В избранное
+        </button>
+
+        <button
+          v-if="isAuthorized"
+          @click="bookStore.removeBook(book)"
+          class="delete-at-list"
+        >
+          Удалить
+        </button>
       </div>
     </div>
   </div>
@@ -49,68 +61,168 @@ const props = defineProps<{
 </script>
 
 <style scoped>
-.delete-at-list {
-  background: url("https://cdn-icons-png.flaticon.com/512/1665/1665612.png")
-    no-repeat center;
-  background-size: contain;
-  width: 30px;
-  height: 30px;
-  border: none;
-  cursor: pointer;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-.position-btn {
-  display: flex;
-  justify-content: flex-end;
-}
-.add-to-list {
-  background: url("https://cdn-icons-png.flaticon.com/512/117/117885.png")
-    no-repeat center;
-  background-size: contain;
-  width: 30px;
-  height: 30px;
-  cursor: pointer;
-  border: none;
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #121212;
+  color: white;
 }
 
 .wrapper {
-  margin: 10px;
   display: flex;
-  align-items: center;
-  max-width: 500px;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  flex-direction: row; /* Горизонтальное расположение элементов */
+  background-color: #1c1c1c;
+  border: 4px solid #4a4a4a;
+  border-radius: 16px;
+  max-width: 1000px;
+  width: 100%;
   padding: 16px;
-  overflow: hidden;
-  border: 2px solid;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  margin-bottom: 15px;
 }
 
 .img {
-  width: 100px;
-  height: 130px;
-  object-fit: cover;
+  width: 200px;
+  height: 200px;
   border-radius: 8px;
-  border: 2px solid #ddd;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 4px solid #555555;
 }
 
 .text-block {
-  margin-left: 16px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.albumId {
-  font-size: 14px;
-  font-weight: bold;
-  color: #555;
+  padding-left: 16px;
+  flex-grow: 1;
 }
 
 .title {
-  font-size: 18px;
+  font-size: 1.5rem;
   font-weight: bold;
-  color: #1a202c;
-  margin-top: 4px;
+  color: #ffffff;
+}
+
+.release-year,
+.rating,
+.duration {
+  font-size: 1rem;
+  color: #999999;
+}
+
+.rating-num-col {
+  background: green;
+  border-radius: 6px;
+  padding: 2px;
+}
+
+.plot {
+  font-size: 0.9rem;
+  color: #b3b3b3;
+  margin-top: 16px;
+  line-height: 1.5;
+}
+
+.buttons {
+  margin-top: 16px;
+  display: flex;
+  gap: 16px;
+  justify-content: flex-end;
+}
+
+.add-to-list,
+.delete-at-list {
+  padding: 8px 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.add-to-list {
+  background-color: #ffb84d;
+  color: black;
+}
+
+.add-to-list:hover {
+  background-color: #ff9e00;
+}
+
+.delete-at-list {
+  background-color: #f44336;
+  color: white;
+}
+
+.delete-at-list:hover {
+  background-color: #d32f2f;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* 2. Убираем все отступы и padding */
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+figure,
+blockquote,
+dl,
+dd {
+  margin: 0;
+  padding: 0;
+}
+
+/* 3. Убираем стили у ссылок */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* 4. Обнуляем списки */
+ul,
+ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* 5. Убираем бордеры и стили кнопок */
+button,
+input,
+textarea,
+select {
+  margin: 0;
+  font: inherit;
+  border: none;
+  background: none;
+  outline: none;
+}
+
+/* 6. Базовые стили для body */
+body {
+  min-height: 100vh;
+  font-family: "Inter", sans-serif;
+  line-height: 1.5;
+  background-color: #fff;
+  color: #333;
+}
+
+/* 7. Глобальная настройка изображений */
+img,
+picture,
+svg,
+video {
+  max-width: 100%;
+  display: block;
 }
 </style>
