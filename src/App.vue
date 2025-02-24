@@ -38,6 +38,7 @@ import { onMounted, ref } from "vue";
 import { useBookshelfStore } from "./stores/bookshelf";
 import { useAuthStore } from "./stores/auth";
 import { useBasketStore } from "./stores/basket";
+// import Test from "./components/Test.vue";
 
 const authStore = useAuthStore();
 const bookStore = useBookshelfStore();
